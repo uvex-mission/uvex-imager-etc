@@ -10,7 +10,7 @@ import warnings
 from synphot import GaussianFlux1D, ConstFlux1D, Empirical1D, SourceSpectrum, Observation
 from scipy.interpolate import RectBivariateSpline
 
-from astropy.coordinates import SkyCoord, get_sun, GeocentricTrueEcliptic
+from astropy.coordinates import get_sun, GeocentricTrueEcliptic
 import astropy.units as u
 from astropy.constants import h, c
 

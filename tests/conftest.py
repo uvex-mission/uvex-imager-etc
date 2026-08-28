@@ -16,7 +16,6 @@ Design notes
 """
 import warnings
 
-import numpy as np
 import pytest
 import astropy.units as u
 from astropy.time import Time

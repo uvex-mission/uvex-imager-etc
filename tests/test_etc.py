@@ -22,7 +22,6 @@ from synphot import SourceSpectrum
 from synphot.models import ConstFlux1D
 
 from uvex_imager_etc.etc import ETC
-from uvex_imager_etc.uvex import UVEX
 
 
 # ---------------------------------------------------------------------------
