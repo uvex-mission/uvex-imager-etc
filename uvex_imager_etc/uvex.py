@@ -8,9 +8,6 @@ from astropy.time import Time
 import astropy.units as u
 
 from synphot import Empirical1D, SpectralElement
-from synphot.models import ConstFlux1D
-
-from . import backgrounds
 
 response_files_dir = os.path.join(os.path.dirname(__file__), 'response_files')
 

@@ -6,7 +6,7 @@ from astropy.time import Time
 from astropy.coordinates import SkyCoord
 from astropy.stats import signal_to_noise_oir_ccd
 
-from synphot import SourceSpectrum, Empirical1D, SpectralElement, Observation
+from synphot import SourceSpectrum, Observation
 from synphot.models import ConstFlux1D
 
 from . import uvex
@@ -382,11 +382,6 @@ class ETC():
             exposure = self.nuv_exposure
         elif band == 'fuv':
             exposure = self.fuv_exposure
-        
-        # Load appropriate read noise and dark current from telescope
-        dark_current = self.telescope.DARK_CURRENT[band].value
-        read_noise = self.telescope.READ_NOISE[band].value
-        npix = self.telescope.NPIX
         
         # Get the required number of standard dwells
         snr_per_frame = self.get_snr(exposure, n_frames=1, band=band)
