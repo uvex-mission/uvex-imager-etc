@@ -33,6 +33,9 @@ docs = [
     "sphinx-automodapi",
 ]
 
+[project.urls]
+Homepage = "https://github.com/uvex-mission/uvex-imager-etc"
+
 [tool.setuptools]
 zip-safe = false
 include-package-data = true

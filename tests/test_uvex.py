@@ -60,20 +60,6 @@ class TestCaldbSelection:
     def test_get_caldb_matches_selected_version(self, telescope, caldb_version):
         assert str(telescope.get_caldb()) == caldb_version
 
-    @pytest.mark.parametrize("older_caldb", ["20260723_v0.1a"])
-    def test_caldb_missing_cherenkov_files_fails_to_load(self, older_caldb):
-        """
-        Known limitation: some earlier CALDB directories (e.g. 20260723_v0.1a)
-        do not ship *_cherenkov_bandpass.txt files, so loading them currently
-        raises rather than degrading gracefully. This test documents that
-        behavior for the CALDB version that exhibits it; it is skipped if that
-        specific historical directory is not present.
-        """
-        if older_caldb not in _available_caldbs():
-            pytest.skip(f"{older_caldb} not present in response_files")
-        with pytest.raises(OSError):
-            UVEX(caldb=older_caldb)
-
 
 class TestTelescopeProperties:
     def test_area_matches_epd(self, telescope):

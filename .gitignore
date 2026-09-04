@@ -1,5 +1,5 @@
 # CALDB contents - to be populated by user
-uvex_imager/etc/response_files/2*
+uvex_imager_etc/response_files/2*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

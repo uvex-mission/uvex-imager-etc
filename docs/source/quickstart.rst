@@ -65,7 +65,7 @@ At a given location and time, :func:`~uvex_imager_etc.etc.limiting_mag` can be u
     print(f"FUV limiting magnitude for SNR=5 after 2 dwells: {lim_mag_dwells}")
 
     lim_mag_exptime = etc.get_limiting_mag(snr=10, exptime=300*u.s, n_frames=6, band='nuv')
-    print(f"NUV limiting magnitude for SNR=10 after 6 x 300s frames: {exptime}")
+    print(f"NUV limiting magnitude for SNR=10 after 6 x 300s frames: {lim_mag_exptime}")
 
 Multiple coordinates, observation times, and sources can be passed to the ETC at once. If any one of these properties has length 1, the same value will be used for all calculations. However, for any containing multiple entries, they must all have the same length so it is unambiguous which should be grouped together. For example, a single source object could be observed at three coordinates and three observation times (and three results will be provided by the above functions).
 

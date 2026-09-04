@@ -57,15 +57,15 @@ class UVEX():
         self.PIXEL = (self.PIX_UM * self.PLATE_SCALE)**2 # Pixel area
 
         self.READ_NOISE = {
-            'nuv': self.config['read_noise']['nuv']['value'] * u.electron,
-            'fuv': self.config['read_noise']['fuv']['value'] * u.electron,
+            'nuv': float(self.config['read_noise']['nuv']['value']) * u.electron,
+            'fuv': float(self.config['read_noise']['fuv']['value']) * u.electron,
         }
         self.DARK_CURRENT = {
-            'nuv': self.config['dark_current']['nuv']['value'] * u.electron / u.s,
-            'fuv': self.config['dark_current']['fuv']['value'] * u.electron / u.s,
+            'nuv': float(self.config['dark_current']['nuv']['value']) * u.electron / u.s,
+            'fuv': float(self.config['dark_current']['fuv']['value']) * u.electron / u.s,
         }
 
-        self.NPIX = 10.15 # Not currently in uvex_response
+        self.NPIX = float(self.config['uvex']['NPIX_IMG']['value'])
         
         # Additional background scaling term not currently in uvex_response
         self.scattered_light_scaling_lya = 0.5
