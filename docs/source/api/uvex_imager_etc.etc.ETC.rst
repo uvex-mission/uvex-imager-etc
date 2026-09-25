@@ -17,6 +17,7 @@ ETC
       ~ETC.get_limiting_mag
       ~ETC.get_snr
       ~ETC.get_source_count_rate
+      ~ETC.get_bandpass
       ~ETC.set_coord
       ~ETC.set_obstime
       ~ETC.set_source
@@ -31,6 +32,7 @@ ETC
    .. automethod:: get_limiting_mag
    .. automethod:: get_snr
    .. automethod:: get_source_count_rate
+   .. automethod:: get_bandpass
    .. automethod:: set_coord
    .. automethod:: set_obstime
    .. automethod:: set_source

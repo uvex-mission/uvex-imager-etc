@@ -394,6 +394,26 @@ class ETC():
         
         return n_dwells
     
+    def get_bandpass(self, band):
+        """
+        Return the bandpass of the provided imaging band as a SpectralElement
+
+        Parameters
+        ----------
+        band : 'nuv' or 'fuv'
+            The UVEX band for which to return a bandpass
+        
+        Returns
+        -------
+        bandpass : SpectralElement
+            SpectralElement object containing the band throughput
+        """
+        band = band.lower()
+        if band == 'nuv': bandpass = self.telescope.nuv_bandpass
+        elif band == 'fuv': bandpass = self.telescope.fuv_bandpass
+        else: raise ValueError(f"Band must be 'nuv' or 'fuv'; received '{band}'")
+
+        return bandpass
     
     def set_source(self, source, regen=True):
         '''
@@ -469,9 +489,9 @@ class ETC():
         if not isinstance(coordinate, SkyCoord):
             raise ValueError("Coordinate must be a `SkyCoord` object.")
         if coordinate.size > 1 and self.n_source > 1 and coordinate.size != self.n_source:
-                raise ValueError("Length of coordinate must be 1 or equal to number of sources.")
+            raise ValueError("Length of coordinate must be 1 or equal to number of sources.")
         if coordinate.size > 1 and self.n_obstime > 1 and coordinate.size != self.n_source:
-                raise ValueError("Length of coordinate must be 1 or equal to number of obs times.")
+            raise ValueError("Length of coordinate must be 1 or equal to number of obs times.")
         self.coord = coordinate
         self.n_coord = coordinate.size
         

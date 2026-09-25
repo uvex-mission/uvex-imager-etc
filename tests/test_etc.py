@@ -18,7 +18,7 @@ import pytest
 import astropy.units as u
 from astropy.time import Time
 from astropy.coordinates import SkyCoord
-from synphot import SourceSpectrum
+from synphot import SourceSpectrum, SpectralElement
 from synphot.models import ConstFlux1D
 
 from uvex_imager_etc.etc import ETC
@@ -231,6 +231,15 @@ class TestGetInfo:
         assert "Source:" in out
         assert "Source position:" in out
         assert "Observation time:" in out
+
+class TestGetBandpass:
+    def test_returns_expected_object(self, etc_with_source):
+        fuvb = etc_with_source.get_bandpass('fuv')
+        nuvb = etc_with_source.get_bandpass('nuv')
+        assert isinstance(fuvb, SpectralElement)
+        assert isinstance(nuvb, SpectralElement)
+        with pytest.raises(ValueError):
+            etc_with_source.get_bandpass('bad bandpass')
 
 # ---------------------------------------------------------------------------
 # End-to-end smoke test

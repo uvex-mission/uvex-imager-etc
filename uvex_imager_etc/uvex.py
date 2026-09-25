@@ -6,6 +6,7 @@ import warnings
 
 from astropy.time import Time
 import astropy.units as u
+from astropy.io import fits
 
 from synphot import Empirical1D, SpectralElement
 
@@ -73,22 +74,24 @@ class UVEX():
         self.lya_kr = 2
         
         # Load in filter bandpasses from uvex_response generated config as SpectralElement objects
-        nuv_data = np.genfromtxt(os.path.join(caldb_dir, 'nuv_bandpass.txt'))
+        with fits.open(os.path.join(caldb_dir, 'nuv_bandpass.fits')) as hdul:
+            nuv_data = hdul[1].data
         self.nuv_bandpass = SpectralElement(Empirical1D,
-                                            points = nuv_data[:,0], lookup_table = nuv_data[:,1])
-        fuv_data = np.genfromtxt(os.path.join(caldb_dir, 'fuv_bandpass.txt'))
+                                            points = nuv_data['WAVELENGTH'], lookup_table = nuv_data['THROUGHPUT'])
+        with fits.open(os.path.join(caldb_dir, 'fuv_bandpass.fits')) as hdul:
+            fuv_data = hdul[1].data
         self.fuv_bandpass = SpectralElement(Empirical1D,
-                                            points = fuv_data[:,0], lookup_table = fuv_data[:,1])
+                                            points = fuv_data['WAVELENGTH'], lookup_table = fuv_data['THROUGHPUT'])
         
         # Cherenkov passes for background contribution
-        nuv_cherenkov_data = np.genfromtxt(os.path.join(caldb_dir, 'nuv_cherenkov_bandpass.txt'))
+        with fits.open(os.path.join(caldb_dir, 'nuv_cherenkov_bandpass.fits')) as hdul:
+            nuv_cherenkov_data = hdul[1].data
         self.nuv_cherenkov_bandpass = SpectralElement(Empirical1D,
-                                            points = nuv_cherenkov_data[:,0], lookup_table = nuv_cherenkov_data[:,1])
-        fuv_cherenkov_data = np.genfromtxt(os.path.join(caldb_dir, 'fuv_cherenkov_bandpass.txt'))
+                                            points = nuv_cherenkov_data['WAVELENGTH'], lookup_table = nuv_cherenkov_data['THROUGHPUT'])
+        with fits.open(os.path.join(caldb_dir, 'fuv_cherenkov_bandpass.fits')) as hdul:
+            fuv_cherenkov_data = hdul[1].data
         self.fuv_cherenkov_bandpass = SpectralElement(Empirical1D,
-                                            points = fuv_cherenkov_data[:,0], lookup_table = fuv_cherenkov_data[:,1])
-        
-        # Other background-related bandpasses as needed
+                                            points = fuv_cherenkov_data['WAVELENGTH'], lookup_table = fuv_cherenkov_data['THROUGHPUT'])
 
     @property
     def AREA(self):
