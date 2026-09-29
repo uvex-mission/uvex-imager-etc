@@ -25,9 +25,10 @@ class UVEX():
     def __init__(self, caldb=None):
     
         # Check for existence of CALDBs
-        avail_caldb = np.array([f for f in os.listdir(response_files_dir) if not f.startswith('.')])
+        avail_caldb = np.array([f for f in os.listdir(response_files_dir) 
+                                if (os.path.isdir(os.path.join(response_files_dir, f)) and f.startswith('2'))])
         if len(avail_caldb) == 0:
-            raise ValueError("No available CALDBs in response_files.")
+            raise ValueError(f"No available CALDBs in {response_files_dir}.")
         
         # Define CALDB we are using
         if caldb is None:

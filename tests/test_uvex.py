@@ -17,7 +17,7 @@ from uvex_imager_etc.uvex import UVEX, response_files_dir
 
 
 def _available_caldbs():
-    return sorted(f for f in os.listdir(response_files_dir) if not f.startswith("."))
+    return sorted(f for f in os.listdir(response_files_dir) if (os.path.isdir(os.path.join(response_files_dir, f)) and f.startswith('2')))
 
 
 def _expected_latest_caldb():

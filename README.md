@@ -51,10 +51,10 @@ that you're using conda.
 Once this is complete, install the UVEX ETC:
 
 ```
-> pip install .
+> pip install -e .
 ```
 
-This should make uvex_imager_etc importable anywhere.
+This should make uvex_imager_etc importable anywhere. Use editable mode to be able to import the response files properly.
 
 This UVEX ETC does not come pre-installed with the latest UVEX response curves as these are managed separately in uvex_response. To finish setting up the ETC, download the latest UVEX CALDB from [the UVEX website](https://www.uvex.caltech.edu/page/uvex-etc) and place the unzipped folder in uvex_imager_etc/response_files.
 
