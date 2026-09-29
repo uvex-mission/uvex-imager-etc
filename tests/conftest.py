@@ -54,7 +54,7 @@ def default_obstime():
 @pytest.fixture
 def multi_coord():
     """Three coordinates spanning north/south Galactic latitude."""
-    return SkyCoord([100.0, 120.0, 140.0], [30.0, 15.0, -40.0], unit=u.deg, frame="galactic")
+    return SkyCoord([100.0, 120.0, 130.0], [30.0, 15.0, -50.0], unit=u.deg, frame="galactic")
 
 
 @pytest.fixture

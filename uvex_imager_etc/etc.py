@@ -3,7 +3,7 @@ import warnings
 
 import astropy.units as u
 from astropy.time import Time
-from astropy.coordinates import SkyCoord
+from astropy.coordinates import SkyCoord, get_sun, GeocentricTrueEcliptic, GCRS
 from astropy.stats import signal_to_noise_oir_ccd
 
 from synphot import SourceSpectrum, Observation
@@ -62,6 +62,7 @@ class ETC():
         # Set the observation times (used for calculating background)
         if obstime is None: obstime = self.default_obstime
         self.set_obstime(obstime, regen=False)
+        self._sun_check()
         
         if telescope is None: telescope = uvex.UVEX()
         self.set_telescope(telescope, regen=False)
@@ -498,6 +499,7 @@ class ETC():
         if regen:
             # Regenerate background count rates
             self._calc_background_count_rate()
+            self._sun_check()
     
     def set_obstime(self, obstime, regen=True):
         '''
@@ -524,6 +526,27 @@ class ETC():
         if regen:
             # Regenerate background count rates
             self._calc_background_count_rate()
+            self._sun_check()
+    
+    def _sun_check(self):
+        '''
+        Check coordinate against position of Sun at given obstime. If within 45-deg, warn user
+        '''
+        sun_pos = get_sun(self.obstime)
+        target = self.coord.transform_to(GCRS(obstime=self.obstime))
+
+        sun_sep = sun_pos.separation(target)
+        in_sun_exclusion = sun_sep < 45*u.deg
+        if np.sum(in_sun_exclusion) > 0:
+            if self.n_coord > 1: coords = self.coord[in_sun_exclusion]
+            else: coords = self.coord
+            if self.n_obstime > 1: obstimes = self.obstime[in_sun_exclusion]
+            else: obstimes = self.obstime
+            # At least one position is within Sun exclusion: warn user
+            warnings.warn(f"Coordinates {coords} at {obstimes} are within 45 degrees of the Sun. " \
+                            "This is within the Solar Exclusion Angle for UVEX " \
+                            "and an observation at this time would not be possible. " \
+                            "The background is likely to be unrealistically high.")
     
     def set_telescope(self, telescope, regen=True):
         '''
