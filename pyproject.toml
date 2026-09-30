@@ -36,6 +36,10 @@ docs = [
 [project.urls]
 Homepage = "https://github.com/uvex-mission/uvex-imager-etc"
 
+[project.scripts]
+install_uvex_etc_caldb = "uvex_imager_etc.uvex:install_uvex_etc_caldb"
+list_installed_uvex_etc_caldbs = "uvex_imager_etc.uvex:list_installed_caldbs"
+
 [tool.setuptools]
 zip-safe = false
 include-package-data = true

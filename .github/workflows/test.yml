@@ -27,12 +27,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          pip install -e .
+          pip install .
 
-      - name: Download CALDB
+      - name: Download and install CALDB
         run: |
-          curl -L "https://www.uvex.caltech.edu/system/media_files/binaries/42/original/20260924_v0.1e.zip?1790639225" -o ./uvex_imager_etc/response_files/20260924_v0.1e.zip 
-          unzip ./uvex_imager_etc/response_files/20260924_v0.1e.zip -d ./uvex_imager_etc/response_files/20260924_v0.1e
+          curl -L "https://www.uvex.caltech.edu/system/media_files/binaries/42/original/20260924_v0.1e.zip?1790639225" -o ./20260924_v0.1e.zip 
+          unzip ./20260924_v0.1e.zip -d ./20260924_v0.1e
+          install_uvex_etc_caldb ./20260924_v0.1e
 
       - name: Run Pytest
         run: pytest

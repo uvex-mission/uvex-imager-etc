@@ -1,4 +1,4 @@
-import os
+import os, sys, shutil
 import json
 import numpy as np
 from numpy import pi as PI
@@ -28,7 +28,7 @@ class UVEX():
         avail_caldb = np.array([f for f in os.listdir(response_files_dir) 
                                 if (os.path.isdir(os.path.join(response_files_dir, f)) and f.startswith('2'))])
         if len(avail_caldb) == 0:
-            raise ValueError(f"No available CALDBs in {response_files_dir}.")
+            raise ValueError(f"No available CALDBs in {response_files_dir}. Please install a CALDB using install_uvex_caldb.")
         
         # Define CALDB we are using
         if caldb is None:
@@ -106,3 +106,40 @@ class UVEX():
         Returns the version of the CALDB in use
         '''
         return self.caldb
+
+def install_uvex_etc_caldb():
+    '''
+    Copies a provided CALDB directory into response_files
+    '''
+    # Get CALDB directory from command line argument
+    if len(sys.argv) < 2:
+        print("Usage: install_uvex_etc_caldb [PATH_TO_CALDB_FOLDER]")
+        return False
+    caldb_dir = sys.argv[1]
+
+    # Check that its contents are as expected
+    contents = [os.path.relpath(os.path.join(r, f), caldb_dir) for r, d, files in os.walk(caldb_dir) for f in files]
+    required = [os.path.join('config', 'response_files.json'), 
+                os.path.join('etc', 'imager', 'nuv_bandpass.fits'), 
+                os.path.join('etc', 'imager', 'fuv_bandpass.fits'), 
+                os.path.join('etc', 'imager', 'nuv_cherenkov_bandpass.fits'),
+                os.path.join('etc', 'imager', 'fuv_cherenkov_bandpass.fits')]
+    if not all([r in contents for r in required]):
+        raise ValueError(f"Invalid CALDB: {caldb_dir} does not contain the required response files for the UVEX imager ETC.")
+        return False
+    
+    # Copy folder across to response_files
+    shutil.copytree(caldb_dir, os.path.join(response_files_dir, os.path.basename(caldb_dir)), dirs_exist_ok=True)
+    print(f"Installed CALDB {caldb_dir} in UVEX imager ETC")
+
+def list_installed_caldbs():
+    '''
+    Lists the CALDBs currently installed in the UVEX imager ETC
+    '''
+    # Check for existence of CALDBs
+    avail_caldb = np.array([f for f in os.listdir(response_files_dir) 
+                            if (os.path.isdir(os.path.join(response_files_dir, f)) and f.startswith('2'))])
+    if len(avail_caldb) == 0:
+        print(f"No available CALDBs in {response_files_dir}. Please install a CALDB using install_uvex_caldb.")
+    else:
+        print(f"Available CALDBs: \n - {'\n - '.join(avail_caldb)}")
